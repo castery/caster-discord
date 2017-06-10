@@ -12,6 +12,7 @@ import { DiscordMessageContext } from './contexts/message';
 import {
 	PLATFORM_NAME,
 	defaultOptions,
+	supportAttachments,
 	defaultOptionsSchema
 } from './util/constants';
 
@@ -132,7 +133,18 @@ export class DiscordPlatform extends Platform {
 				return await next();
 			}
 
-			return await this.discord.channels.get(context.to.id).send(context.text);
+			const options = {};
+
+			if ('attachments' in context) {
+				options.files = context.attachments.filter(({ type }) => (
+					supportAttachments.includes(type)
+				))
+				.map(({ source }) => ({
+					attachment: source
+				}));
+			}
+
+			return await this.discord.channels.get(context.to.id).send(context.text, options);
 		});
 	}
 

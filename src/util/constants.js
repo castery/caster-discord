@@ -10,6 +10,13 @@ import Joi from 'joi';
 export const PLATFORM_NAME = 'discord';
 
 /**
+ * Supports attachments
+ *
+ * @type {Array}
+ */
+export const supportAttachments = ['image', 'video', 'document'];
+
+/**
  * Default options platform
  *
  * @type {Object}

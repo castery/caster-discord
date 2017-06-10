@@ -72,6 +72,14 @@ export class DiscordMessageContext extends MessageContext {
 		message.to = this.from;
 		message.text = options.text;
 
+		if ('attachments' in options) {
+			if (!Array.isArray(options.attachments)) {
+				options.attachments = [options.attachments];
+			}
+
+			message.attachments = options.attachments;
+		}
+
 		return this.caster.dispatchOutcoming(message);
 	}
 
