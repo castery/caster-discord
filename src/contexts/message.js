@@ -2,8 +2,7 @@
 
 import { PLATFORM_NAME } from '../util/constants';
 
-/* TODO: Change from local package to npm */
-import { MessageContext } from '../../../caster';
+import { MessageContext } from '@castery/caster';
 
 const enumTypesMessage = {
 	text: 'channel'

@@ -1,20 +1,17 @@
 {
     "name": "@castery/caster-discord",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "description": "🤖⛓️ The Discord platform for caster",
     "main": "index.js",
     "engines": {
         "node": ">=7.0.0"
     },
-    "directories": {
-        "test": "test"
-    },
     "scripts": {
         "test": "mocha lib/test",
         "build": "npm run-script babel",
-        "babel": "babel src/ --out-dir lib/",
+        "babel": "babel ./src/ --out-dir ./lib/",
         "watch": "npm run-script babel -- --watch",
-        "prepublish": "npm run-script babel && npm test"
+        "prepare": "npm run-script babel && npm run-script test"
     },
     "repository": {
         "type": "git",
@@ -35,7 +32,7 @@
         "babel-cli": "^6.24.1",
         "babel-core": "^6.24.1",
         "babel-preset-env": "^1.5.1",
-        "chai": "^4.0.1",
+        "chai": "^4.0.2",
         "mocha": "^3.4.2"
     },
     "dependencies": {
