@@ -4,7 +4,7 @@
     "description": "🤖⛓️ The Discord platform for caster",
     "main": "index.js",
     "engines": {
-        "node": ">=7.0.0"
+        "node": ">=8.0.0"
     },
     "scripts": {
         "test": "mocha lib/test",
@@ -30,8 +30,9 @@
     "homepage": "https://github.com/castery/caster-discord#readme",
     "devDependencies": {
         "babel-cli": "^6.24.1",
-        "babel-core": "^6.24.1",
-        "babel-preset-env": "^1.5.1",
+        "babel-core": "^6.25.0",
+        "babel-plugin-transform-object-rest-spread": "^6.23.0",
+        "babel-preset-env": "^1.6.0",
         "chai": "^4.0.2",
         "mocha": "^3.4.2"
     },
@@ -39,6 +40,6 @@
         "bluebird": "^3.5.0",
         "debug": "^2.6.8",
         "discord.js": "^11.1.0",
-        "joi": "^10.5.2"
+        "joi": "^10.6.0"
     }
 }
