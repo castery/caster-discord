@@ -33,10 +33,11 @@
         "babel-core": "^6.25.0",
         "babel-plugin-transform-object-rest-spread": "^6.23.0",
         "babel-preset-env": "^1.6.0",
-        "chai": "^4.0.2",
+        "chai": "^4.1.0",
         "mocha": "^3.4.2"
     },
     "dependencies": {
+        "@castery/caster": "^0.0.10",
         "bluebird": "^3.5.0",
         "debug": "^2.6.8",
         "discord.js": "^11.1.0",
