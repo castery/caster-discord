@@ -1,6 +1,6 @@
 {
     "name": "@castery/caster-discord",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "🤖⛓️ The Discord platform for caster",
     "main": "index.js",
     "engines": {
@@ -37,7 +37,7 @@
         "mocha": "^3.4.2"
     },
     "dependencies": {
-        "@castery/caster": "^0.0.10",
+        "@castery/caster": "^0.0.11",
         "bluebird": "^3.5.0",
         "debug": "^2.6.8",
         "discord.js": "^11.1.0",

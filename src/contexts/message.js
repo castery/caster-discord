@@ -1,8 +1,13 @@
 'use strict';
 
-import { PLATFORM_NAME } from '../util/constants';
+import { MessageContext, CONTEXT_PROPS } from '@castery/caster';
+import {
+	PLATFORM_NAME,
+	supportedContextTypes,
+	supportedAttachmentTypes
+} from '../util/constants';
 
-import { MessageContext } from '@castery/caster';
+const { SUPPORTED_CONTEXT_TYPES, SUPPORTED_ATTACHMENT_TYPES } = CONTEXT_PROPS;
 
 const enumTypesMessage = {
 	text: 'channel'
@@ -46,6 +51,24 @@ export class DiscordMessageContext extends MessageContext {
 		this.text = message.content;
 
 		this.raw = message;
+	}
+
+	/**
+	 * Returns supported context types
+	 *
+	 * @return {Object}
+	 */
+	get [SUPPORTED_CONTEXT_TYPES] () {
+		return supportedContextTypes;
+	}
+
+	/**
+	 * Returns supported attachment types
+	 *
+	 * @return {Object}
+	 */
+	get [SUPPORTED_ATTACHMENT_TYPES] () {
+		return supportedAttachmentTypes;
 	}
 
 	/**

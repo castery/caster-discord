@@ -2,7 +2,7 @@
 
 import { Client as DiscordClient } from 'discord.js';
 
-import { Platform } from '@castery/caster';
+import { Platform, errors as casterErrors } from '@castery/caster';
 
 import createDebug from 'debug';
 
@@ -11,11 +11,14 @@ import { DiscordMessageContext } from './contexts/message';
 import {
 	PLATFORM_NAME,
 	defaultOptions,
-	supportAttachments,
-	defaultOptionsSchema
+	defaultOptionsSchema,
+	supportedContextTypes,
+	supportedAttachmentTypes
 } from './util/constants';
 
-const debug = createDebug('caster:platform-discord');
+const { UnsupportedAttachmentType, UnsupportedContextType } = casterErrors;
+
+const debug = createDebug('caster-discord');
 
 /**
  * Platform for integration with social network VK
@@ -132,13 +135,22 @@ export class DiscordPlatform extends Platform {
 				return await next();
 			}
 
+			if (supportedContextTypes[context.type] !== true) {
+				throw new UnsupportedContextType({
+					type: context.type
+				});
+			}
+
 			const options = {};
 
 			if ('attachments' in context) {
-				options.files = context.attachments.filter(({ type }) => (
-					supportAttachments.includes(type)
-				))
-				.map(({ source }) => ({
+				for (const { type } of context.attachments) {
+					if (supportedAttachmentTypes[type] !== true) {
+						throw new UnsupportedAttachmentType({ type });
+					}
+				}
+
+				options.files = context.attachments.map(({ source }) => ({
 					attachment: source
 				}));
 			}

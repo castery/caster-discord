@@ -2,6 +2,8 @@
 
 import Joi from 'joi';
 
+import { MessageContext } from '@castery/caster';
+
 /**
  * Platform context name
  *
@@ -10,11 +12,24 @@ import Joi from 'joi';
 export const PLATFORM_NAME = 'discord';
 
 /**
- * Supports attachments
+ * Supported platform types
  *
- * @type {Array}
+ * @type {Object}
  */
-export const supportAttachments = ['image', 'video', 'document'];
+export const supportedContextTypes = MessageContext.defaultSupportedContextTypes({
+	message: true
+});
+
+/**
+ * Supported platform attachments
+ *
+ * @type {Object}
+ */
+export const supportedAttachmentTypes = MessageContext.defaultSupportedAttachmentTypes({
+	image: true,
+	video: true,
+	document: true
+});
 
 /**
  * Default options platform
