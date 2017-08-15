@@ -44,6 +44,7 @@ export class DiscordPlatform extends Platform {
 			this.setOptions(options);
 		}
 
+		this._setReplacePrefix();
 		this._addDefaultEvents();
 	}
 
@@ -184,11 +185,42 @@ export class DiscordPlatform extends Platform {
 				return;
 			}
 
+			let $text = message.content;
+			if ($text !== null) {
+				if (!this._hasPrefix.test($text)) {
+					return;
+				}
+
+				$text = $text.replace(this._replacePrefix, '');
+			}
+
 			for (const caster of this._casters) {
 				caster.dispatchIncoming(
-					new DiscordMessageContext(caster, message, this.options.id)
+					new DiscordMessageContext(caster, {
+						id: this.options.id,
+						message,
+						$text
+					})
 				);
 			}
 		});
+	}
+
+	/**
+	 * Sets replace prefix
+	 */
+	_setReplacePrefix () {
+		let { prefix } = this.options;
+
+		prefix = String.raw`^(?:${prefix.join('|')})`;
+
+		this._hasPrefix = new RegExp(
+			String.raw`${prefix}.+`,
+			'i'
+		);
+		this._replacePrefix = new RegExp(
+			String.raw`${prefix}?[, ]*`,
+			'i'
+		);
 	}
 }

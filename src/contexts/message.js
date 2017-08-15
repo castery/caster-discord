@@ -26,13 +26,15 @@ export class DiscordMessageContext extends MessageContext {
 	 * @param {Message} message
 	 * @param {number}  id
 	 */
-	constructor (caster, message, id) {
+	constructor (caster, { id, message, $text = null }) {
 		super(caster);
 
 		this.platform = {
 			id,
 			name: PLATFORM_NAME
 		};
+
+		console.log(message);
 
 		const { type } = message.channel;
 
@@ -49,6 +51,7 @@ export class DiscordMessageContext extends MessageContext {
 		};
 
 		this.text = message.content;
+		this.$text = $text;
 
 		this.raw = message;
 	}
@@ -89,7 +92,10 @@ export class DiscordMessageContext extends MessageContext {
 		this.to = this.from;
 		this.text = options.text;
 
-		const message = new DiscordMessageContext(this.caster, this.raw, this.platform.id);
+		const message = new DiscordMessageContext(this.caster, {
+			id: this.platform.id,
+			message: this.raw
+		});
 
 		message.to = this.from;
 		message.text = options.text;
@@ -97,9 +103,9 @@ export class DiscordMessageContext extends MessageContext {
 		if ('attachments' in options) {
 			if (!Array.isArray(options.attachments)) {
 				options.attachments = [options.attachments];
+			} else {
+				message.attachments = options.attachments;
 			}
-
-			message.attachments = options.attachments;
 		}
 
 		return this.caster.dispatchOutcoming(message);

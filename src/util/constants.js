@@ -39,7 +39,9 @@ export const supportedAttachmentTypes = MessageContext.defaultSupportedAttachmen
 export const defaultOptions = {
 	id: null,
 
-	adapter: {}
+	adapter: {},
+
+	prefix: ['!']
 };
 
 /**
@@ -52,5 +54,7 @@ export const defaultOptions = {
 export const defaultOptionsSchema = Joi.object().keys({
 	id: Joi.string().allow(null),
 
-	adapter: Joi.object()
+	adapter: Joi.object(),
+
+	prefix: Joi.array()
 });
