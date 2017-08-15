@@ -1,6 +1,6 @@
 {
     "name": "@castery/caster-discord",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "🤖⛓️ The Discord platform for caster",
     "main": "index.js",
     "engines": {
