@@ -34,8 +34,6 @@ export class DiscordMessageContext extends MessageContext {
 			name: PLATFORM_NAME
 		};
 
-		console.log(message);
-
 		const { type } = message.channel;
 
 		this.from = {
