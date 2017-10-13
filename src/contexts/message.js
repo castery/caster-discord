@@ -1,5 +1,3 @@
-'use strict';
-
 import { MessageContext, CONTEXT_PROPS } from '@castery/caster';
 import {
 	PLATFORM_NAME,
@@ -18,7 +16,7 @@ const enumTypesMessage = {
  *
  * @public
  */
-export class DiscordMessageContext extends MessageContext {
+export default class DiscordMessageContext extends MessageContext {
 	/**
 	 * Constructor
 	 *
@@ -26,7 +24,7 @@ export class DiscordMessageContext extends MessageContext {
 	 * @param {Message} message
 	 * @param {number}  id
 	 */
-	constructor (caster, { id, message, $text = null }) {
+	constructor(caster, { id, message, $text = null }) {
 		super(caster);
 
 		this.platform = {
@@ -59,7 +57,7 @@ export class DiscordMessageContext extends MessageContext {
 	 *
 	 * @return {Object}
 	 */
-	get [SUPPORTED_CONTEXT_TYPES] () {
+	get [SUPPORTED_CONTEXT_TYPES]() {
 		return supportedContextTypes;
 	}
 
@@ -68,7 +66,7 @@ export class DiscordMessageContext extends MessageContext {
 	 *
 	 * @return {Object}
 	 */
-	get [SUPPORTED_ATTACHMENT_TYPES] () {
+	get [SUPPORTED_ATTACHMENT_TYPES]() {
 		return supportedAttachmentTypes;
 	}
 
@@ -80,7 +78,7 @@ export class DiscordMessageContext extends MessageContext {
 	 *
 	 * @return {Promise<mixed>}
 	 */
-	send (text, options = {}) {
+	send(text, options = {}) {
 		if (typeof text === 'object') {
 			options = text;
 		} else {
@@ -117,7 +115,7 @@ export class DiscordMessageContext extends MessageContext {
 	 *
 	 * @return {Promise<mixed>}
 	 */
-	reply (text, options = {}) {
+	reply(text, options = {}) {
 		if (typeof text === 'object') {
 			options = text;
 		} else {

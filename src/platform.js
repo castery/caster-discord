@@ -1,12 +1,14 @@
-'use strict';
-
 import { Client as DiscordClient } from 'discord.js';
 
-import { Platform, errors as casterErrors } from '@castery/caster';
+import {
+	Platform,
+	UnsupportedContextType,
+	UnsupportedAttachmentType
+} from '@castery/caster';
 
 import createDebug from 'debug';
 
-import { DiscordMessageContext } from './contexts/message';
+import DiscordMessageContext from './contexts/message';
 
 import {
 	PLATFORM_NAME,
@@ -16,8 +18,6 @@ import {
 	supportedAttachmentTypes
 } from './util/constants';
 
-const { UnsupportedAttachmentType, UnsupportedContextType } = casterErrors;
-
 const debug = createDebug('caster-discord');
 
 /**
@@ -25,33 +25,33 @@ const debug = createDebug('caster-discord');
  *
  * @public
  */
-export class DiscordPlatform extends Platform {
+export default class DiscordPlatform extends Platform {
 	/**
 	 * Constructor
 	 *
 	 * @param {Object} options
 	 */
-	constructor (options = {}) {
+	constructor(options = {}) {
 		super();
 
 		Object.assign(this.options, defaultOptions);
 
-		this.discord = new DiscordClient;
+		this.discord = new DiscordClient();
 
-		this._casters = new Set;
+		this.casters = new Set();
 
 		if (Object.keys(options).length > 0) {
 			this.setOptions(options);
 		}
 
-		this._setReplacePrefix();
-		this._addDefaultEvents();
+		this.setReplacePrefix();
+		this.addDefaultEvents();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	setOptions (options) {
+	setOptions(options) {
 		super.setOptions(options);
 
 		if ('adapter' in options) {
@@ -68,14 +68,14 @@ export class DiscordPlatform extends Platform {
 	/**
 	 * @inheritdoc
 	 */
-	getOptionsSchema () {
+	getOptionsSchema() {
 		return defaultOptionsSchema;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	getAdapter () {
+	getAdapter() {
 		return this.discord;
 	}
 
@@ -84,7 +84,7 @@ export class DiscordPlatform extends Platform {
 	 *
 	 * @return {string}
 	 */
-	getId () {
+	getId() {
 		return this.options.id;
 	}
 
@@ -93,14 +93,14 @@ export class DiscordPlatform extends Platform {
 	 *
 	 * @return {string}
 	 */
-	getPlatformName () {
+	getPlatformName() {
 		return PLATFORM_NAME;
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	async start () {
+	async start() {
 		await this.discord.login(this.options.adapter.token);
 
 		if (this.options.id === null) {
@@ -113,15 +113,15 @@ export class DiscordPlatform extends Platform {
 	/**
 	 * @inheritdoc
 	 */
-	async stop () {
+	async stop() {
 		await this.discord.destroy();
 	}
 
 	/**
 	 * @inheritdoc
 	 */
-	async subscribe (caster) {
-		this._casters.add(caster);
+	async subscribe(caster) {
+		this.casters.add(caster);
 
 		if (!this.isStarted()) {
 			await this.start();
@@ -163,12 +163,12 @@ export class DiscordPlatform extends Platform {
 	/**
 	 * @inheritdoc
 	 */
-	async unsubscribe (caster) {
-		this._casters.delete(caster);
+	async unsubscribe(caster) {
+		this.casters.delete(caster);
 
 		caster.outcoming.removePlatform(this);
 
-		if (this._casters.size === 0 && this.isStarted()) {
+		if (this.casters.size === 0 && this.isStarted()) {
 			await this.stop();
 		}
 	}
@@ -176,7 +176,8 @@ export class DiscordPlatform extends Platform {
 	/**
 	 * Add default events discord
 	 */
-	_addDefaultEvents () {
+	addDefaultEvents() {
+		// eslint-disable-next-line no-console
 		this.discord.on('error', console.error);
 
 		this.discord.on('message', (message) => {
@@ -187,21 +188,19 @@ export class DiscordPlatform extends Platform {
 
 			let $text = message.content;
 			if ($text !== null) {
-				if (!this._hasPrefix.test($text)) {
+				if (!this.hasPrefix.test($text)) {
 					return;
 				}
 
-				$text = $text.replace(this._replacePrefix, '');
+				$text = $text.replace(this.replacePrefix, '');
 			}
 
-			for (const caster of this._casters) {
-				caster.dispatchIncoming(
-					new DiscordMessageContext(caster, {
-						id: this.options.id,
-						message,
-						$text
-					})
-				);
+			for (const caster of this.casters) {
+				caster.dispatchIncoming(new DiscordMessageContext(caster, {
+					id: this.options.id,
+					message,
+					$text
+				}));
 			}
 		});
 	}
@@ -209,16 +208,16 @@ export class DiscordPlatform extends Platform {
 	/**
 	 * Sets replace prefix
 	 */
-	_setReplacePrefix () {
+	setReplacePrefix() {
 		let { prefix } = this.options;
 
 		prefix = String.raw`^(?:${prefix.join('|')})`;
 
-		this._hasPrefix = new RegExp(
+		this.hasPrefix = new RegExp(
 			String.raw`${prefix}.+`,
 			'i'
 		);
-		this._replacePrefix = new RegExp(
+		this.replacePrefix = new RegExp(
 			String.raw`${prefix}?[, ]*`,
 			'i'
 		);

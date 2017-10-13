@@ -1,3 +1,5 @@
-'use strict';
+import DiscordPlatform from './platform';
 
-export { DiscordPlatform } from './platform';
+export { DiscordPlatform };
+
+export default DiscordPlatform;
