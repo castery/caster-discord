@@ -1,15 +1,12 @@
+import createDebug from 'debug';
 import { Client as DiscordClient } from 'discord.js';
-
 import {
 	Platform,
-	UnsupportedContextType,
-	UnsupportedAttachmentType
+	UnsupportedContextTypeError,
+	UnsupportedAttachmentTypeError
 } from '@castery/caster';
 
-import createDebug from 'debug';
-
 import DiscordMessageContext from './contexts/message';
-
 import {
 	PLATFORM_NAME,
 	defaultOptions,
@@ -137,26 +134,30 @@ export default class DiscordPlatform extends Platform {
 			}
 
 			if (supportedContextTypes[context.type] !== true) {
-				throw new UnsupportedContextType({
+				throw new UnsupportedContextTypeError({
 					type: context.type
 				});
 			}
 
-			const options = {};
+			const channel = this.discord.channels.get(context.to.id);
 
 			if ('attachments' in context) {
 				for (const { type } of context.attachments) {
 					if (supportedAttachmentTypes[type] !== true) {
-						throw new UnsupportedAttachmentType({ type });
+						throw new UnsupportedAttachmentTypeError({ type });
 					}
 				}
 
-				options.files = context.attachments.map(({ source }) => ({
-					attachment: source
-				}));
+				await Promise.all(context.attachments.map(({ source }) => (
+					channel.send('', {
+						file: source
+					})
+				)));
 			}
 
-			return await this.discord.channels.get(context.to.id).send(context.text, options);
+			if (context.text) {
+				await channel.send(context.text);
+			}
 		});
 	}
 

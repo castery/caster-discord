@@ -1,6 +1,6 @@
 {
     "name": "@castery/caster-discord",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "🤖⛓️ The Discord platform for caster",
     "main": "index.js",
     "engines": {
@@ -38,13 +38,13 @@
         "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.32",
         "@babel/preset-env": "^7.0.0-beta.32",
         "chai": "^4.1.2",
-        "eslint": "^4.11.0",
+        "eslint": "^4.12.0",
         "eslint-config-airbnb-base": "^12.1.0",
         "eslint-plugin-import": "^2.8.0",
         "mocha": "^4.0.1"
     },
     "dependencies": {
-        "@castery/caster": "^0.0.15",
+        "@castery/caster": "^0.0.16",
         "debug": "^3.1.0",
         "discord.js": "^11.2.1",
         "joi": "^13.0.2"

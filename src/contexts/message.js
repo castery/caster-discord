@@ -1,11 +1,11 @@
-import { MessageContext, CONTEXT_PROPS } from '@castery/caster';
+import { MessageContext, contextProps } from '@castery/caster';
 import {
 	PLATFORM_NAME,
 	supportedContextTypes,
 	supportedAttachmentTypes
 } from '../util/constants';
 
-const { SUPPORTED_CONTEXT_TYPES, SUPPORTED_ATTACHMENT_TYPES } = CONTEXT_PROPS;
+const { SUPPORTED_CONTEXT_TYPES, SUPPORTED_ATTACHMENT_TYPES } = contextProps;
 
 const enumTypesMessage = {
 	text: 'channel'
@@ -94,11 +94,13 @@ export default class DiscordMessageContext extends MessageContext {
 		});
 
 		message.to = this.from;
+		message.state = { ...this.state };
+
 		message.text = options.text;
 
 		if ('attachments' in options) {
 			if (!Array.isArray(options.attachments)) {
-				options.attachments = [options.attachments];
+				message.attachments = [options.attachments];
 			} else {
 				message.attachments = options.attachments;
 			}
