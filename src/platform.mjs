@@ -13,7 +13,7 @@ import {
 	defaultOptionsSchema,
 	supportedContextTypes,
 	supportedAttachmentTypes
-} from './util/constants';
+} from './utils/constants';
 
 const debug = createDebug('caster-discord');
 

@@ -2,7 +2,8 @@
     "name": "@castery/caster-discord",
     "version": "0.0.10",
     "description": "🤖⛓️ The Discord platform for caster",
-    "main": "index.js",
+    "main": "lib/index.js",
+    "module": "lib/index.mjs",
     "engines": {
         "node": ">=8.0.0"
     },
@@ -10,12 +11,13 @@
         "lib"
     ],
     "scripts": {
+        "rollup:build": "cross-env NODE_ENV=production rollup -c",
+        "rollup:watch": "npm run rollup:build -- -w",
         "lint": "eslint ./src",
-        "test": "mocha lib/test",
-        "build": "npm run-script babel",
-        "babel": "babel ./src/ --out-dir ./lib/",
-        "watch": "npm run-script babel -- --watch",
-        "prepare": "npm run-script babel && npm run-script test"
+        "lint:fix": "npm run lint -- --fix",
+        "test": "mocha test/*.test.mjs --require ./test/runtime.mjs",
+        "build": "npm run rollup:build",
+        "prepare": "npm run build && npm run test"
     },
     "repository": {
         "type": "git",
@@ -32,21 +34,30 @@
         "url": "https://github.com/castery/caster-discord/issues"
     },
     "homepage": "https://github.com/castery/caster-discord#readme",
+    "peerDependencies": {
+        "@castery/caster": "^0.0.x"
+    },
     "devDependencies": {
-        "@babel/cli": "^7.0.0-beta.32",
-        "@babel/core": "^7.0.0-beta.32",
-        "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.32",
-        "@babel/preset-env": "^7.0.0-beta.32",
+        "@babel/core": "^7.0.0-beta.44",
+        "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.44",
+        "@babel/preset-env": "^7.0.0-beta.44",
+        "@babel/register": "^7.0.0-beta.44",
+        "@castery/caster": "^0.0.23",
         "chai": "^4.1.2",
-        "eslint": "^4.12.0",
+        "cross-env": "^5.1.4",
+        "eslint": "^4.19.1",
         "eslint-config-airbnb-base": "^12.1.0",
-        "eslint-plugin-import": "^2.8.0",
-        "mocha": "^4.0.1"
+        "eslint-plugin-import": "^2.11.0",
+        "mocha": "^5.1.0",
+        "rollup": "^0.57.1",
+        "rollup-plugin-babel": "^4.0.0-beta.4",
+        "rollup-plugin-commonjs": "^9.1.0",
+        "rollup-plugin-json": "^2.3.0",
+        "rollup-plugin-node-resolve": "^3.3.0"
     },
     "dependencies": {
-        "@castery/caster": "^0.0.16",
         "debug": "^3.1.0",
-        "discord.js": "^11.2.1",
-        "joi": "^13.0.2"
+        "discord.js": "^11.3.2",
+        "joi": "^13.1.2"
     }
 }

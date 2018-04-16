@@ -3,7 +3,7 @@ import {
 	PLATFORM_NAME,
 	supportedContextTypes,
 	supportedAttachmentTypes
-} from '../util/constants';
+} from '../utils/constants';
 
 const { SUPPORTED_CONTEXT_TYPES, SUPPORTED_ATTACHMENT_TYPES } = contextProps;
 
