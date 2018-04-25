@@ -38,18 +38,18 @@
         "@castery/caster": "^0.0.x"
     },
     "devDependencies": {
-        "@babel/core": "^7.0.0-beta.44",
-        "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.44",
-        "@babel/preset-env": "^7.0.0-beta.44",
-        "@babel/register": "^7.0.0-beta.44",
+        "@babel/core": "^7.0.0-beta.46",
+        "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.46",
+        "@babel/preset-env": "^7.0.0-beta.46",
+        "@babel/register": "^7.0.0-beta.46",
         "@castery/caster": "^0.0.23",
         "chai": "^4.1.2",
         "cross-env": "^5.1.4",
         "eslint": "^4.19.1",
         "eslint-config-airbnb-base": "^12.1.0",
         "eslint-plugin-import": "^2.11.0",
-        "mocha": "^5.1.0",
-        "rollup": "^0.57.1",
+        "mocha": "^5.1.1",
+        "rollup": "^0.58.2",
         "rollup-plugin-babel": "^4.0.0-beta.4",
         "rollup-plugin-commonjs": "^9.1.0",
         "rollup-plugin-json": "^2.3.0",
@@ -58,6 +58,6 @@
     "dependencies": {
         "debug": "^3.1.0",
         "discord.js": "^11.3.2",
-        "joi": "^13.1.2"
+        "joi": "^13.2.0"
     }
 }
